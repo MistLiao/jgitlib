@@ -397,7 +397,7 @@ abstract class WalkEncryption {
 			try {
 				//salt = DatatypeConverter
 				//		.parseHexBinary(keySalt.replaceAll(REGEX_WS, EMPTY));
-                salt = org.apache.commons.codec.binary.Hex.decodeHex(keySalt.replaceAll(REGEX_WS, EMPTY));
+                salt = org.apache.commons.codec.binary.Hex.decodeHex(keySalt.replaceAll(REGEX_WS, EMPTY).toCharArray());
 			} catch (Exception e) {
 				throw securityError(X_KEY_SALT + EMPTY + keySalt);
 			}
