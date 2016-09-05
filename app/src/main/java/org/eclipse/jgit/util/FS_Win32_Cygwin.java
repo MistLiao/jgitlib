@@ -45,8 +45,6 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -160,21 +158,5 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 			String stdinArgs) throws JGitInternalException {
 		return internalRunHookIfPresent(repository, hookName, args, outRedirect,
 				errRedirect, stdinArgs);
-	}
-
-	/**
-	 * @since 3.7
-	 */
-	@Override
-	public File findHook(Repository repository, String hookName) {
-		final File gitdir = repository.getDirectory();
-		if (gitdir == null) {
-			return null;
-		}
-		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
-				.resolve(hookName);
-		if (Files.isExecutable(hookPath))
-			return hookPath.toFile();
-		return null;
 	}
 }

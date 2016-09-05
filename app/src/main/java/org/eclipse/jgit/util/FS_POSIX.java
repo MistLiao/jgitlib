@@ -48,9 +48,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -173,42 +170,7 @@ public class FS_POSIX extends FS {
 
 	@Override
 	public boolean setExecute(File f, boolean canExecute) {
-		if (!isFile(f))
-			return false;
-		if (!canExecute)
-			return f.setExecutable(false);
-
-		try {
-			Path path = f.toPath();
-			Set<PosixFilePermission> pset = Files.getPosixFilePermissions(path);
-
-			// owner (user) is always allowed to execute.
-			pset.add(PosixFilePermission.OWNER_EXECUTE);
-
-			int mask = umask();
-			apply(pset, mask, PosixFilePermission.GROUP_EXECUTE, 1 << 3);
-			apply(pset, mask, PosixFilePermission.OTHERS_EXECUTE, 1);
-			Files.setPosixFilePermissions(path, pset);
-			return true;
-		} catch (IOException e) {
-			// The interface doesn't allow to throw IOException
-			final boolean debug = Boolean.parseBoolean(SystemReader
-					.getInstance().getProperty("jgit.fs.debug")); //$NON-NLS-1$
-			if (debug)
-				System.err.println(e);
-			return false;
-		}
-	}
-
-	private static void apply(Set<PosixFilePermission> set,
-			int umask, PosixFilePermission perm, int test) {
-		if ((umask & test) == 0) {
-			// If bit is clear in umask, permission is allowed.
-			set.add(perm);
-		} else {
-			// If bit is set in umask, permission is denied.
-			set.remove(perm);
-		}
+		return false;
 	}
 
 	@Override
@@ -272,21 +234,5 @@ public class FS_POSIX extends FS {
 	@Override
 	public String normalize(String name) {
 		return FileUtils.normalize(name);
-	}
-
-	/**
-	 * @since 3.7
-	 */
-	@Override
-	public File findHook(Repository repository, String hookName) {
-		final File gitdir = repository.getDirectory();
-		if (gitdir == null) {
-			return null;
-		}
-		final Path hookPath = gitdir.toPath().resolve(Constants.HOOKS)
-				.resolve(hookName);
-		if (Files.isExecutable(hookPath))
-			return hookPath.toFile();
-		return null;
 	}
 }

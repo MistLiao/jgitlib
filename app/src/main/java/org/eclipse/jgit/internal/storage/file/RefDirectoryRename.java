@@ -46,8 +46,6 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.StandardCopyOption;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -209,10 +207,8 @@ class RefDirectoryRename extends RefRename {
 
 	private static boolean rename(File src, File dst) {
 		try {
-			FileUtils.rename(src, dst, StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(src, dst);
 			return true;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
 		} catch (IOException e) {
 			// ignore
 		}
@@ -221,7 +217,7 @@ class RefDirectoryRename extends RefRename {
 		if ((dir.exists() || !dir.mkdirs()) && !dir.isDirectory())
 			return false;
 		try {
-			FileUtils.rename(src, dst, StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(src, dst);
 			return true;
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);

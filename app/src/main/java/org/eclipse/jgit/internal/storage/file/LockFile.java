@@ -54,7 +54,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.LockFailedException;
@@ -454,7 +453,7 @@ public class LockFile {
 
 		saveStatInformation();
 		try {
-			FileUtils.rename(lck, ref, StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(lck, ref);
 			haveLck = false;
 			return true;
 		} catch (IOException e) {

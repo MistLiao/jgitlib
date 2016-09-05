@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -845,7 +844,7 @@ public class GC {
 					}
 			tmpPack.setReadOnly();
 
-			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(tmpPack, realPack);
 			for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
 				File tmpExt = tmpEntry.getValue();
 				tmpExt.setReadOnly();
@@ -853,14 +852,12 @@ public class GC {
 				File realExt = nameFor(id,
 						"." + tmpEntry.getKey().getExtension()); //$NON-NLS-1$
 				try {
-					FileUtils.rename(tmpExt, realExt,
-							StandardCopyOption.ATOMIC_MOVE);
+					FileUtils.rename(tmpExt, realExt);
 				} catch (IOException e) {
 					File newExt = new File(realExt.getParentFile(),
 							realExt.getName() + ".new"); //$NON-NLS-1$
 					try {
-						FileUtils.rename(tmpExt, newExt,
-								StandardCopyOption.ATOMIC_MOVE);
+						FileUtils.rename(tmpExt, newExt);
 					} catch (IOException e2) {
 						newExt = tmpExt;
 						e = e2;

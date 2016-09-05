@@ -50,7 +50,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -478,8 +477,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		}
 
 		try {
-			FileUtils.rename(tmpPack, finalPack,
-					StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(tmpPack, finalPack);
 		} catch (IOException e) {
 			cleanupTemporaryFiles();
 			keep.unlock();
@@ -488,7 +486,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 		}
 
 		try {
-			FileUtils.rename(tmpIdx, finalIdx, StandardCopyOption.ATOMIC_MOVE);
+			FileUtils.rename(tmpIdx, finalIdx);
 		} catch (IOException e) {
 			cleanupTemporaryFiles();
 			keep.unlock();

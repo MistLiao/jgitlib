@@ -52,9 +52,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -611,16 +608,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 			FileUtils.delete(tmp, FileUtils.RETRY);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
-		try {
-			Files.move(tmp.toPath(), dst.toPath(),
-					StandardCopyOption.ATOMIC_MOVE);
+
+		if (tmp.renameTo(dst)){
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
-		} catch (IOException e) {
-			// ignore
 		}
 
 		// Maybe the directory doesn't exist yet as the object
@@ -628,16 +620,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// try the rename first as the directory likely does exist.
 		//
 		FileUtils.mkdir(dst.getParentFile(), true);
-		try {
-			Files.move(tmp.toPath(), dst.toPath(),
-					StandardCopyOption.ATOMIC_MOVE);
+		if (tmp.renameTo(dst)){
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
-		} catch (AtomicMoveNotSupportedException e) {
-			LOG.error(e.getMessage(), e);
-		} catch (IOException e) {
-			LOG.debug(e.getMessage(), e);
 		}
 
 		if (!createDuplicate && has(id)) {

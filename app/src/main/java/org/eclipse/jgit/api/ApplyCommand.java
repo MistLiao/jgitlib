@@ -47,7 +47,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,8 +143,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					f = getFile(fh.getOldPath(), false);
 					File dest = getFile(fh.getNewPath(), false);
 					try {
-						FileUtils.rename(f, dest,
-								StandardCopyOption.ATOMIC_MOVE);
+						FileUtils.rename(f, dest);
 					} catch (IOException e) {
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().renameFileFailed, f, dest), e);
