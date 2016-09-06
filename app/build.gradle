@@ -5,9 +5,7 @@ android {
     buildToolsVersion "24.0.2"
     sourceSets {
         main {
-            java {
-                srcDir 'src/main/org.eclipse.jgit'
-            }
+
         }
     }
 
