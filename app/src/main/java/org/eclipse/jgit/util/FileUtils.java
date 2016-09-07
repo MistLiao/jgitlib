@@ -353,21 +353,8 @@ public class FileUtils {
 	 */
 	public static String createSymLink(File path, String target)
 			throws IOException {
-		String nioPath = path.getPath();
-		if (Files.exists(nioPath, LinkOption.NOFOLLOW_LINKS)) {
-			BasicFileAttributes attrs = Files.readAttributes(nioPath,
-					BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
-			if (attrs.isRegularFile() || attrs.isSymbolicLink()) {
-				delete(path);
-			} else {
-				delete(path, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
-			}
-		}
-		if (SystemReader.getInstance().isWindows()) {
-			target = target.replace('/', '\\');
-		}
-		Path nioTarget = new File(target).toPath();
-		return Files.createSymbolicLink(nioPath, nioTarget);
+		// Not support, so throw exception
+		throw new IOException();
 	}
 
 	/**
@@ -377,15 +364,7 @@ public class FileUtils {
 	 * @since 3.0
 	 */
 	public static String readSymLink(File path) throws IOException {
-		Path nioPath = path.toPath();
-		Path target = Files.readSymbolicLink(nioPath);
-		String targetString = target.toString();
-		if (SystemReader.getInstance().isWindows()) {
-			targetString = targetString.replace('\\', '/');
-		} else if (SystemReader.getInstance().isMacOS()) {
-			targetString = Normalizer.normalize(targetString, Form.NFC);
-		}
-		return targetString;
+		return path.getCanonicalPath();
 	}
 
 	/**
@@ -496,7 +475,12 @@ public class FileUtils {
 	 * @return {@code true} if the passed file is a symbolic link
 	 */
 	static boolean isSymlink(File file) {
-		return Files.isSymbolicLink(file.toPath());
+        try {
+            return file.getCanonicalFile().equals(file.getAbsoluteFile());
+        }
+        catch (IOException e){
+        }
+        return false;
 	}
 
 	/**
@@ -506,8 +490,7 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	static long lastModified(File file) throws IOException {
-		return Files.getLastModifiedTime(file.toPath(), LinkOption.NOFOLLOW_LINKS)
-				.toMillis();
+		return file.lastModified();
 	}
 
 	/**
@@ -516,7 +499,7 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	static void setLastModified(File file, long time) throws IOException {
-		Files.setLastModifiedTime(file.toPath(), FileTime.fromMillis(time));
+		file.setLastModified(time);
 	}
 
 	/**
@@ -525,7 +508,7 @@ public class FileUtils {
 	 *         links
 	 */
 	static boolean exists(File file) {
-		return Files.exists(file.toPath(), LinkOption.NOFOLLOW_LINKS);
+		return file.exists();
 	}
 
 	/**
@@ -534,7 +517,7 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	static boolean isHidden(File file) throws IOException {
-		return Files.isHidden(file.toPath());
+		return file.isHidden();
 	}
 
 	/**
@@ -544,8 +527,8 @@ public class FileUtils {
 	 * @since 4.1
 	 */
 	public static void setHidden(File file, boolean hidden) throws IOException {
-		Files.setAttribute(file.toPath(), "dos:hidden", Boolean.valueOf(hidden), //$NON-NLS-1$
-				LinkOption.NOFOLLOW_LINKS);
+        // Not support, so throw exception
+		throw new IOException();
 	}
 
 	/**
@@ -555,11 +538,7 @@ public class FileUtils {
 	 * @since 4.1
 	 */
 	public static long getLength(File file) throws IOException {
-		Path nioPath = file.toPath();
-		if (Files.isSymbolicLink(nioPath))
-			return Files.readSymbolicLink(nioPath).toString()
-					.getBytes(Constants.CHARSET).length;
-		return Files.size(nioPath);
+		return file.length();
 	}
 
 	/**
@@ -568,7 +547,7 @@ public class FileUtils {
 	 *         symbolic links
 	 */
 	static boolean isDirectory(File file) {
-		return Files.isDirectory(file.toPath(), LinkOption.NOFOLLOW_LINKS);
+		return file.isDirectory();
 	}
 
 	/**
@@ -577,7 +556,7 @@ public class FileUtils {
 	 *         links
 	 */
 	static boolean isFile(File file) {
-		return Files.isRegularFile(file.toPath(), LinkOption.NOFOLLOW_LINKS);
+		return file.isFile();
 	}
 
 	/**
@@ -589,7 +568,7 @@ public class FileUtils {
 		if (!isFile(file)) {
 			return false;
 		}
-		return Files.isExecutable(file.toPath());
+		return file.canExecute();
 	}
 
 	/**
@@ -598,29 +577,8 @@ public class FileUtils {
 	 * @return non null attributes object
 	 */
 	static Attributes getFileAttributesBasic(FS fs, File file) {
-		try {
-			Path nioPath = file.toPath();
-			BasicFileAttributes readAttributes = nioPath
-					.getFileSystem()
-					.provider()
-					.getFileAttributeView(nioPath,
-							BasicFileAttributeView.class,
-							LinkOption.NOFOLLOW_LINKS).readAttributes();
-			Attributes attributes = new Attributes(fs, file,
-					true,
-					readAttributes.isDirectory(),
-					fs.supportsExecute() ? file.canExecute() : false,
-					readAttributes.isSymbolicLink(),
-					readAttributes.isRegularFile(), //
-					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
-					readAttributes.isSymbolicLink() ? Constants
-							.encode(readSymLink(file)).length
-							: readAttributes.size());
-			return attributes;
-		} catch (IOException e) {
-			return new Attributes(file, fs);
-		}
+		// Not support so just return default values
+		return new Attributes(file, fs);
 	}
 
 	/**
@@ -630,30 +588,8 @@ public class FileUtils {
 	 * @since 4.1
 	 */
 	public static Attributes getFileAttributesPosix(FS fs, File file) {
-		try {
-			Path nioPath = file.toPath();
-			PosixFileAttributes readAttributes = nioPath
-					.getFileSystem()
-					.provider()
-					.getFileAttributeView(nioPath,
-							PosixFileAttributeView.class,
-							LinkOption.NOFOLLOW_LINKS).readAttributes();
-			Attributes attributes = new Attributes(
-					fs,
-					file,
-					true, //
-					readAttributes.isDirectory(), //
-					readAttributes.permissions().contains(
-							PosixFilePermission.OWNER_EXECUTE),
-					readAttributes.isSymbolicLink(),
-					readAttributes.isRegularFile(), //
-					readAttributes.creationTime().toMillis(), //
-					readAttributes.lastModifiedTime().toMillis(),
-					readAttributes.size());
-			return attributes;
-		} catch (IOException e) {
-			return new Attributes(file, fs);
-		}
+		// Not support so just return default values
+		return new Attributes(file, fs);
 	}
 
 	/**

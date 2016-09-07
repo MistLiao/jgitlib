@@ -28,14 +28,14 @@ dependencies {
 }
 
 task deleteOldJar(type: Delete) {
-    delete 'release/jgit.lib'
+    delete 'release/libjgit.jar'
 }
 
 task exportJar(type: Copy) {
-    from('build/intermediaes/bundles/release/')
+    from('build/intermediates/bundles/release')
     into('release/')
     include('classes.jar')
-    rename('classes.jar', 'jgit.lib')
+    rename('classes.jar', 'libjgit.jar')
 }
 
 exportJar.dependsOn(deleteOldJar, build)
