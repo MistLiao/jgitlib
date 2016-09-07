@@ -55,8 +55,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Read Git style pkt-line formatting from an input stream.
@@ -69,7 +67,6 @@ import org.slf4j.LoggerFactory;
  * against the underlying InputStream.
  */
 public class PacketLineIn {
-	private static final Logger log = LoggerFactory.getLogger(PacketLineIn.class);
 
 	/** Magic return from {@link #readString()} when a flush packet is found. */
 	public static final String END = new StringBuilder(0).toString(); 	/* must not string pool */
@@ -141,13 +138,11 @@ public class PacketLineIn {
 	public String readString() throws IOException {
 		int len = readLength();
 		if (len == 0) {
-			log.debug("git< 0000"); //$NON-NLS-1$
 			return END;
 		}
 
 		len -= 4; // length header (4 bytes)
 		if (len == 0) {
-			log.debug("git< "); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 
@@ -162,7 +157,6 @@ public class PacketLineIn {
 			len--;
 
 		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
-		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
 	}
 
@@ -179,7 +173,6 @@ public class PacketLineIn {
 	public String readStringRaw() throws IOException {
 		int len = readLength();
 		if (len == 0) {
-			log.debug("git< 0000"); //$NON-NLS-1$
 			return END;
 		}
 
@@ -194,7 +187,6 @@ public class PacketLineIn {
 		IO.readFully(in, raw, 0, len);
 
 		String s = RawParseUtils.decode(Constants.CHARSET, raw, 0, len);
-		log.debug("git< " + s); //$NON-NLS-1$
 		return s;
 	}
 

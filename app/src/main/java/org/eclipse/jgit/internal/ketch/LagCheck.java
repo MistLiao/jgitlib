@@ -134,9 +134,6 @@ class LagCheck implements AutoCloseable {
 				return DIVERGENT;
 			}
 		} catch (IOException err) {
-			KetchReplica.log.error(String.format(
-					"Cannot compare %s", //$NON-NLS-1$
-					acceptCmd.getRefName()), err);
 			return UNKNOWN;
 		}
 	}
@@ -155,10 +152,6 @@ class LagCheck implements AutoCloseable {
 		try {
 			replica.blockingFetch(repo, fetch);
 		} catch (IOException fetchErr) {
-			KetchReplica.log.error(String.format(
-					"Cannot fetch %s (%s) from %s", //$NON-NLS-1$
-					remoteId.abbreviate(8).name(), refName,
-					replica.describeForLog()), fetchErr);
 			throw new MissingObjectException(remoteId, OBJ_COMMIT);
 		}
 

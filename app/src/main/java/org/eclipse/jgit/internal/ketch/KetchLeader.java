@@ -63,8 +63,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A leader managing consensus across remote followers.
@@ -113,7 +111,6 @@ import org.slf4j.LoggerFactory;
  * to prevent concurrent access by correctly obtaining the leader's lock.
  */
 public abstract class KetchLeader {
-	private static final Logger log = LoggerFactory.getLogger(KetchLeader.class);
 
 	/** Current state of the leader instance. */
 	public static enum State {
@@ -398,7 +395,6 @@ public abstract class KetchLeader {
 			case DEPOSED:
 			case SHUTDOWN:
 			default:
-				log.warn("Leader cannot run {}", state); //$NON-NLS-1$
 				// TODO(sop): Redirect proposals.
 				return;
 			}
@@ -410,7 +406,6 @@ public abstract class KetchLeader {
 			round.start();
 		} catch (IOException e) {
 			// TODO(sop) Depose leader if it cannot use its repository.
-			log.error(KetchText.get().leaderFailedToStore, e);
 			lock.lock();
 			try {
 				nextRound();
@@ -477,10 +472,6 @@ public abstract class KetchLeader {
 	 *            replica posting a completion event.
 	 */
 	void onReplicaUpdate(KetchReplica replica) {
-		if (log.isDebugEnabled()) {
-			log.debug("Replica {} finished:\n{}", //$NON-NLS-1$
-					replica.describeForLog(), snapshot());
-		}
 
 		if (replica.getParticipation() == FOLLOWER_ONLY) {
 			// Followers cannot vote, so votes haven't changed.
@@ -508,28 +499,18 @@ public abstract class KetchLeader {
 		case CANDIDATE:
 			term = ((ElectionRound) runningRound).getTerm();
 			state = LEADER;
-			if (log.isDebugEnabled()) {
-				log.debug("Won election, running term " + term); //$NON-NLS-1$
-			}
 
 			//$FALL-THROUGH$
 		case LEADER:
 			committedIndex = headIndex;
-			if (log.isDebugEnabled()) {
-				log.debug("Committed {} in term {}", //$NON-NLS-1$
-						committedIndex.describeForLog(),
-						Long.valueOf(term));
-			}
+
 			nextRound();
 			commitAsync(replica);
 			notifySuccess(runningRound);
-			if (log.isDebugEnabled()) {
-				log.debug("Leader state:\n{}", snapshot()); //$NON-NLS-1$
-			}
+
 			break;
 
 		default:
-			log.debug("Leader ignoring replica while in {}", state); //$NON-NLS-1$
 			break;
 		}
 	}

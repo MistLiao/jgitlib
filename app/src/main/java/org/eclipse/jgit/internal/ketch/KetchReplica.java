@@ -78,8 +78,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A Ketch replica, either {@link LocalReplica} or {@link RemoteGitReplica}.
@@ -104,7 +102,6 @@ import org.slf4j.LoggerFactory;
  * {@link KetchLeader#lock} to protect shared data.
  */
 public abstract class KetchReplica {
-	static final Logger log = LoggerFactory.getLogger(KetchReplica.class);
 	private static final byte[] PEEL = { ' ', '^' };
 
 	/** Participation of a replica in establishing consensus. */
@@ -500,10 +497,6 @@ public abstract class KetchReplica {
 			long delay = KetchSystem.delay(
 					lastRetryMillis,
 					minRetryMillis, maxRetryMillis);
-			if (log.isDebugEnabled()) {
-				log.debug("Retrying {} after {} ms", //$NON-NLS-1$
-						describeForLog(), Long.valueOf(delay));
-			}
 			lastRetryMillis = delay;
 			retryAtMillis = SystemReader.getInstance().getCurrentTime() + delay;
 			retryFuture = getSystem().getExecutor()

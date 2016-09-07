@@ -117,9 +117,6 @@ public class ReplicaPushRequest {
 	 *            exception thrown during communication.
 	 */
 	public void setException(@Nullable Repository repo, Throwable err) {
-		if (KetchReplica.log.isErrorEnabled()) {
-			KetchReplica.log.error(describe("failed"), err); //$NON-NLS-1$
-		}
 		if (!notified) {
 			notified = true;
 			exception = err;
@@ -137,9 +134,6 @@ public class ReplicaPushRequest {
 	 *            local repository reference used by the push attempt.
 	 */
 	public void done(Repository repo) {
-		if (KetchReplica.log.isDebugEnabled()) {
-			KetchReplica.log.debug(describe("completed")); //$NON-NLS-1$
-		}
 		if (!notified) {
 			notified = true;
 			replica.afterPush(repo, this);

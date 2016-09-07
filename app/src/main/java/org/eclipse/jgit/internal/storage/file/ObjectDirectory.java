@@ -83,8 +83,6 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Traditional file system based {@link ObjectDatabase}.
@@ -105,8 +103,6 @@ import org.slf4j.LoggerFactory;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
-	private final static Logger LOG = LoggerFactory
-			.getLogger(ObjectDirectory.class);
 
 	private static final PackList NO_PACKS = new PackList(
 			FileSnapshot.DIRTY, new PackFile[0]);
@@ -569,19 +565,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 			removePack(p);
 		}
 		if (warnTmpl != null) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()), e);
-			} else {
-				LOG.warn(MessageFormat.format(warnTmpl,
-						p.getPackFile().getAbsolutePath()));
-			}
 		} else {
 			// Don't remove the pack from the list, as the error may be
 			// transient.
-			LOG.error(MessageFormat.format(
-					JGitText.get().exceptionWhileReadingPack, p.getPackFile()
-							.getAbsolutePath()), e);
 		}
 	}
 

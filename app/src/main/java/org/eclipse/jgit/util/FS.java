@@ -71,8 +71,6 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.ProcessResult.Status;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
@@ -156,8 +154,6 @@ public abstract class FS {
 			return rc;
 		}
 	}
-
-	private final static Logger LOG = LoggerFactory.getLogger(FS.class);
 
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED = detect();
@@ -477,12 +473,7 @@ public abstract class FS {
 	 */
 	@Nullable
 	protected static String readPipe(File dir, String[] command, String encoding, Map<String, String> env) {
-		final boolean debug = LOG.isDebugEnabled();
 		try {
-			if (debug) {
-				LOG.debug("readpipe " + Arrays.asList(command) + "," //$NON-NLS-1$ //$NON-NLS-2$
-						+ dir);
-			}
 			ProcessBuilder pb = new ProcessBuilder(command);
 			pb.directory(dir);
 			if (env != null) {
@@ -496,14 +487,6 @@ public abstract class FS {
 			try (BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), encoding))) {
 				r = lineRead.readLine();
-				if (debug) {
-					LOG.debug("readpipe may return '" + r + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-					LOG.debug("remaining output:\n"); //$NON-NLS-1$
-					String l;
-					while ((l = lineRead.readLine()) != null) {
-						LOG.debug(l);
-					}
-				}
 			}
 
 			for (;;) {
@@ -513,19 +496,12 @@ public abstract class FS {
 					if (rc == 0 && !gobbler.fail.get()) {
 						return r;
 					}
-					if (debug) {
-						LOG.debug("readpipe rc=" + rc); //$NON-NLS-1$
-					}
 					break;
 				} catch (InterruptedException ie) {
 					// Stop bothering me, I have a zombie to reap.
 				}
 			}
 		} catch (IOException e) {
-			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
-		}
-		if (debug) {
-			LOG.debug("readpipe returns null"); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -558,15 +534,11 @@ public abstract class FS {
 				}
 			} finally {
 				if (err.length() > 0) {
-					LOG.error(err.toString());
 				}
 			}
 		}
 
 		private void logError(Throwable t) {
-			String msg = MessageFormat.format(
-					JGitText.get().exceptionCaughtDuringExcecutionOfCommand, desc, dir);
-			LOG.error(msg, t);
 		}
 	}
 

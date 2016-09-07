@@ -58,8 +58,6 @@ import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ProgressSpinner;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * PreReceiveHook for handling push traffic in a Ketch system.
@@ -69,7 +67,6 @@ import org.slf4j.LoggerFactory;
  * leader to gain consensus about the new reference state.
  */
 public class KetchPreReceive implements PreReceiveHook {
-	private static final Logger log = LoggerFactory.getLogger(KetchPreReceive.class);
 
 	private final KetchLeader leader;
 
@@ -116,7 +113,6 @@ public class KetchPreReceive implements PreReceiveHook {
 					cmd.setResult(REJECTED_OTHER_REASON, msg);
 				}
 			}
-			log.error(msg, e);
 		}
 	}
 

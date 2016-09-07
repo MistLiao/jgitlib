@@ -47,8 +47,6 @@ import static org.eclipse.jgit.ignore.internal.IMatcher.NO_MATCH;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.ignore.internal.IMatcher;
 import org.eclipse.jgit.ignore.internal.PathMatcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * "Fast" (compared with IgnoreRule) git ignore rule implementation supporting
@@ -59,8 +57,6 @@ import org.slf4j.LoggerFactory;
  * @since 3.6
  */
 public class FastIgnoreRule {
-	private final static Logger LOG = LoggerFactory
-			.getLogger(FastIgnoreRule.class);
 
 	/**
 	 * Character used as default path separator for ignore entries
@@ -125,7 +121,6 @@ public class FastIgnoreRule {
 					Character.valueOf(PATH_SEPARATOR), dirOnly);
 		} catch (InvalidPatternException e) {
 			m = NO_MATCH;
-			LOG.error(e.getMessage(), e);
 		}
 		this.matcher = m;
 	}

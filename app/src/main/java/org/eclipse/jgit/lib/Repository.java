@@ -94,8 +94,7 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /**
  * Represents a Git repository.
@@ -106,7 +105,6 @@ import org.slf4j.LoggerFactory;
  * This class is thread-safe.
  */
 public abstract class Repository implements AutoCloseable {
-	private static Logger LOG = LoggerFactory.getLogger(Repository.class);
 
 	private static final ListenerList globalListeners = new ListenerList();
 
@@ -878,14 +876,6 @@ public abstract class Repository implements AutoCloseable {
 				doClose();
 			}
 		} else if (newCount == -1) {
-			// should not happen, only log when useCnt became negative to
-			// minimize number of log entries
-			if (LOG.isDebugEnabled()) {
-				IllegalStateException e = new IllegalStateException();
-				LOG.debug(JGitText.get().corruptUseCnt, e);
-			} else {
-				LOG.warn(JGitText.get().corruptUseCnt);
-			}
 			if (RepositoryCache.isCached(this)) {
 				closedAt.set(System.currentTimeMillis());
 			}

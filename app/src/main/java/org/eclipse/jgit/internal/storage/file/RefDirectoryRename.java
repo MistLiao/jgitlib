@@ -54,8 +54,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Rename any reference stored by {@link RefDirectory}.
@@ -68,8 +66,6 @@ import org.slf4j.LoggerFactory;
  * directory that happens to match the source name.
  */
 class RefDirectoryRename extends RefRename {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(RefDirectoryRename.class);
 
 	private final RefDirectory refdb;
 
@@ -220,7 +216,6 @@ class RefDirectoryRename extends RefRename {
 			FileUtils.rename(src, dst);
 			return true;
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
 			return false;
 		}
 	}

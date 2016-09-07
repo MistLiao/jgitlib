@@ -67,8 +67,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Ketch system-wide configuration.
@@ -251,13 +249,11 @@ public class KetchSystem {
 	}
 
 	static class DefaultExecutorHolder {
-		private static final Logger log = LoggerFactory.getLogger(KetchSystem.class);
 		static final ScheduledExecutorService I = create();
 
 		private static ScheduledExecutorService create() {
 			int cores = Runtime.getRuntime().availableProcessors();
 			int threads = Math.max(5, cores);
-			log.info("Using {} threads", Integer.valueOf(threads)); //$NON-NLS-1$
 			return Executors.newScheduledThreadPool(
 				threads,
 				new ThreadFactory() {

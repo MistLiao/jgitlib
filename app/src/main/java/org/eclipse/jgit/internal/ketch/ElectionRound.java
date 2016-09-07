@@ -55,15 +55,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The initial {@link Round} for a leaderless repository, used to establish a
  * leader.
  */
 class ElectionRound extends Round {
-	private static final Logger log = LoggerFactory.getLogger(ElectionRound.class);
 
 	private long term;
 
@@ -120,9 +117,6 @@ class ElectionRound extends Round {
 		b.setCommitter(b.getAuthor());
 		b.setMessage(msg.toString());
 
-		if (log.isDebugEnabled()) {
-			log.debug("Trying to elect myself " + b.getMessage()); //$NON-NLS-1$
-		}
 		return inserter.insert(b);
 	}
 

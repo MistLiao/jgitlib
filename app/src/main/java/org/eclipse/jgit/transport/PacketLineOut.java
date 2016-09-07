@@ -50,8 +50,6 @@ import java.io.OutputStream;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Write Git style pkt-line formatting to an output stream.
@@ -64,7 +62,6 @@ import org.slf4j.LoggerFactory;
  * against the underlying OutputStream.
  */
 public class PacketLineOut {
-	private static final Logger log = LoggerFactory.getLogger(PacketLineOut.class);
 
 	private final OutputStream out;
 
@@ -140,10 +137,6 @@ public class PacketLineOut {
 		formatLength(len + 4);
 		out.write(lenbuffer, 0, 4);
 		out.write(buf, pos, len);
-		if (log.isDebugEnabled()) {
-			String s = RawParseUtils.decode(Constants.CHARSET, buf, pos, len);
-			log.debug("git> " + s); //$NON-NLS-1$
-		}
 	}
 
 	/**
@@ -162,7 +155,6 @@ public class PacketLineOut {
 	public void end() throws IOException {
 		formatLength(0);
 		out.write(lenbuffer, 0, 4);
-		log.debug("git> 0000"); //$NON-NLS-1$
 		if (flushOnEnd)
 			flush();
 	}
