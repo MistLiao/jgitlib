@@ -1,0 +1,72 @@
+{
+    "_id" : ObjectId("5caefefb00317d3167f120be"),
+    "githubID" : 1586187,
+    "login" : "tyyang",
+    "name" : "HowardTYYang",
+    "avatarURL" : "https://avatars1.githubusercontent.com/u/1586187?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f12088"),
+    "githubID" : 9897893,
+    "login" : "allenkao",
+    "name" : "Allen Kao",
+    "avatarURL" : "https://avatars3.githubusercontent.com/u/9897893?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f120c6"),
+    "githubID" : 37991224,
+    "login" : "yangkenny",
+    "name" : null,
+    "avatarURL" : "https://avatars2.githubusercontent.com/u/37991224?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f120a9"),
+    "githubID" : 39292941,
+    "login" : "minfenghong",
+    "name" : "Minfeng Hong",
+    "avatarURL" : "https://avatars3.githubusercontent.com/u/39292941?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f1209f"),
+    "githubID" : 48511416,
+    "login" : "JohnCheng9",
+    "name" : "John Cheng",
+    "avatarURL" : "https://avatars1.githubusercontent.com/u/48511416?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f120b5"),
+    "githubID" : 48541298,
+    "login" : "RobinChiuASUS",
+    "name" : "Robin Chiu",
+    "avatarURL" : "https://avatars0.githubusercontent.com/u/48541298?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f12094"),
+    "githubID" : 48714772,
+    "login" : "EricLiuAsus",
+    "name" : null,
+    "avatarURL" : "https://avatars0.githubusercontent.com/u/48714772?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f120a7"),
+    "githubID" : 48791307,
+    "login" : "Martin1Chang",
+    "name" : "Martin Chang",
+    "avatarURL" : "https://avatars3.githubusercontent.com/u/48791307?v=4",
+    "__v" : 0
+}
+{
+    "_id" : ObjectId("5caefefb00317d3167f120a8"),
+    "githubID" : 48981992,
+    "login" : "MickWuASUS",
+    "name" : "Mick Wu",
+    "avatarURL" : "https://avatars1.githubusercontent.com/u/48981992?v=4",
+    "__v" : 0
+}
