@@ -1,0 +1,162 @@
+[
+  {
+    "login": "RobinChiuASUS",
+    "name": "Robin Chiu",
+    "total": 5,
+    "unfinished": 5,
+    "done": 0,
+    "complete_rate": 0
+  },
+  {
+    "login": "MickWuASUS",
+    "name": "Mick Wu",
+    "total": 11,
+    "unfinished": 11,
+    "done": 0,
+    "complete_rate": 0
+  },
+  {
+    "login": "yangkenny",
+    "name": null,
+    "total": 12,
+    "unfinished": 12,
+    "done": 0,
+    "complete_rate": 0
+  },
+  {
+    "login": "EricLiuAsus",
+    "name": null,
+    "total": 11,
+    "unfinished": 11,
+    "done": 0,
+    "complete_rate": 0
+  },
+  {
+    "login": "Martin1Chang",
+    "name": "Martin Chang",
+    "total": 9,
+    "unfinished": 9,
+    "done": 0,
+    "complete_rate": 0
+  },
+  {
+    "login": "MorrisChuang",
+    "name": "Morris Chuang",
+    "total": 8,
+    "unfinished": 5,
+    "done": 3,
+    "complete_rate": 38
+  },
+  {
+    "login": "kaismiin",
+    "name": "Kyle Yu",
+    "total": 13,
+    "unfinished": 8,
+    "done": 5,
+    "complete_rate": 39
+  },
+  {
+    "login": "BrianChengASUS",
+    "name": "Brian Cheng",
+    "total": 12,
+    "unfinished": 6,
+    "done": 6,
+    "complete_rate": 50
+  },
+  {
+    "login": "allenkao",
+    "name": "Allen Kao",
+    "total": 9,
+    "unfinished": 4,
+    "done": 5,
+    "complete_rate": 56
+  },
+  {
+    "login": "simonsonga",
+    "name": "Simon Song",
+    "total": 10,
+    "unfinished": 4,
+    "done": 6,
+    "complete_rate": 60
+  },
+  {
+    "login": "WilliamPengAsus",
+    "name": "William Peng",
+    "total": 15,
+    "unfinished": 6,
+    "done": 9,
+    "complete_rate": 60
+  },
+  {
+    "login": "MistLiao",
+    "name": "Mist Liao",
+    "total": 8,
+    "unfinished": 3,
+    "done": 5,
+    "complete_rate": 63
+  },
+  {
+    "login": "JohnCheng9",
+    "name": "John Cheng",
+    "total": 11,
+    "unfinished": 4,
+    "done": 7,
+    "complete_rate": 64
+  },
+  {
+    "login": "minfenghong",
+    "name": "Minfeng Hong",
+    "total": 10,
+    "unfinished": 3,
+    "done": 7,
+    "complete_rate": 70
+  },
+  {
+    "login": "sdf611097",
+    "name": "Jim1_Lin",
+    "total": 7,
+    "unfinished": 2,
+    "done": 5,
+    "complete_rate": 72
+  },
+  {
+    "login": "FeiwenCheng",
+    "name": "Feiwen Cheng",
+    "total": 8,
+    "unfinished": 2,
+    "done": 6,
+    "complete_rate": 75
+  },
+  {
+    "login": "kerwin-yu",
+    "name": "KerwinYu",
+    "total": 11,
+    "unfinished": 1,
+    "done": 10,
+    "complete_rate": 91
+  },
+  {
+    "login": "AICS-Review-Bot",
+    "name": null,
+    "total": 23,
+    "unfinished": 1,
+    "done": 22,
+    "complete_rate": 96
+  },
+  {
+    "login": "misgod",
+    "name": "Sam Lee",
+    "total": 5,
+    "unfinished": 0,
+    "done": 5,
+    "complete_rate": 100
+  },
+  {
+    "login": "tyyang",
+    "name": "HowardTYYang",
+    "total": 9,
+    "unfinished": 0,
+    "done": 9,
+    "complete_rate": 100
+  }
+]
